@@ -13,26 +13,29 @@ public class PostServiceImpl implements PostService {
 	
 	@Autowired
 	private PostRepository postRepo;
+	
 
 	@Override
 	public PostDto savePost(PostDto postDto) {
 		
 		Post post = new Post();
 		
-		post.setId(postDto.getId());
+//		post.setId(postDto.getId());
 		post.setTitle(postDto.getTitle());
 		post.setDescription(postDto.getDescription());
 		post.setContent(postDto.getContent());
 		
 		Post savedPost = postRepo.save(post);
 		
-		postDto.setId(savedPost.getId());
-		postDto.setTitle(savedPost.getTitle());
-		postDto.setDescription(savedPost.getDescription());
-		postDto.setContent(savedPost.getContent());
-		postDto.setMessage("Post is Saved Successfully!!");
+		PostDto dto = new PostDto();
 		
-		return postDto;
+		dto.setId(savedPost.getId());
+		dto.setTitle(savedPost.getTitle());
+		dto.setDescription(savedPost.getDescription());
+		dto.setContent(savedPost.getContent());
+		dto.setMessage("Post is Saved Successfully!!");
+		
+		return dto;
 		
 	}
 
