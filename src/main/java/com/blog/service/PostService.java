@@ -6,4 +6,6 @@ public interface PostService {
 
 	public PostDto savePost(PostDto postDto);
 
+	public void deletePost(long id);
+
 }
