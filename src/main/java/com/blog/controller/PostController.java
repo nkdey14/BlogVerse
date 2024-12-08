@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.exception.ResourceNotFoundException;
 import com.blog.payload.PostDto;
 import com.blog.service.PostService;
 
@@ -30,7 +31,7 @@ public class PostController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deletePostDetails(@PathVariable long id) {
+	public ResponseEntity<String> deletePostDetails(@PathVariable long id) throws ResourceNotFoundException {
 		
 		postService.deletePost(id);
 		

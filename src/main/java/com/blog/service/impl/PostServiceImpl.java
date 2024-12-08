@@ -1,9 +1,11 @@
 package com.blog.service.impl;
 
+import org.hibernate.ResourceClosedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blog.entity.Post;
+import com.blog.exception.ResourceNotFoundException;
 import com.blog.payload.PostDto;
 import com.blog.repository.PostRepository;
 import com.blog.service.PostService;
@@ -36,12 +38,17 @@ public class PostServiceImpl implements PostService {
 		dto.setMessage("Post is Saved Successfully!!");
 		
 		return dto;
-		
 	}
 
 
 	@Override
-	public void deletePost(long id) {
+	public void deletePost(long id) throws ResourceNotFoundException {
+		
+		Post post = postRepo.findById(id).orElseThrow(
+				
+				()-> new ResourceNotFoundException("Post not found with id: "+ id)
+				
+				);
 		
 		postRepo.deleteById(id);
 		
