@@ -3,6 +3,7 @@ package com.blog.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,8 @@ import com.blog.exception.ResourceNotFoundException;
 import com.blog.payload.PostDto;
 import com.blog.service.PostService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -23,7 +26,12 @@ public class PostController {
 	// http://localhost:8083/api/posts
 	
 	@PostMapping
-	public ResponseEntity<PostDto> savePostDetails(@RequestBody PostDto postDto) {
+	public ResponseEntity<?> savePostDetails(@Valid @RequestBody PostDto postDto, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			
+			return new ResponseEntity<>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
 		PostDto dto = postService.savePost(postDto);
 		
